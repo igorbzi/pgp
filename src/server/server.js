@@ -21,7 +21,7 @@ app.get("/" , (req, res)=>{
 })
 
 /*-----------------users---------------------*/
-app.get("/user", async (req, res)=> {
+app.get("/users", async (req, res)=> {
   try {
     const fornecedor = await db.any(
       "select cpf, username, user_email, user_phone, user_phone2, user_address from users"
@@ -55,5 +55,21 @@ app.post("/users", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.sendStatus(400);
+  }
+});
+
+app.delete("/users", async (req, res) => {
+  try{
+
+    const id = req.body.cpf; //pega parametro da req
+
+    db.none(
+        "DELETE from users where cpf = $1;", [id] //deleta pelo cpf
+    );
+    res.sendStatus(200);
+
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(400)
   }
 });
