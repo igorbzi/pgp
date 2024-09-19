@@ -23,10 +23,10 @@ app.get("/" , (req, res)=>{
 /*-----------------users---------------------*/
 app.get("/users", async (req, res)=> {
   try {
-    const fornecedor = await db.any(
+    const user = await db.any(
       "select cpf, username, user_email, user_phone, user_phone2, user_address from users"
     );
-    res.json(fornecedor).status(200);
+    res.json(user).status(200);
   } catch (error) {
     console.log(error);
     res.sendStatus(404);
@@ -45,6 +45,32 @@ app.post("/users", async (req, res) => {
     const address = req.body.address;
     
     console.log(`CPF: ${cpf} Nome: ${nome}`);
+
+    const unique_cpf = await db.oneOrNone(
+      "SELECT 1 from users where cpf = $1",
+      [cpf]
+    )
+
+    const unique_email = await db.oneOrNone(
+      "SELECT 1 from users where user_email = $1",
+      [email]
+    )
+
+    const unique_phone = await db.oneOrNone(
+      "SELECT 1 from users where user_phone = $1",
+      [phone]
+    )
+    
+    if(unique_cpf) {
+      res.status(400).send("CPF já cadastrado");
+      return;
+    } else if (unique_email){
+      res.status(400).send("Email já cadastrado");
+      return;
+    } else if(unique_phone){
+      res.status(400).send("Telefone principal já cadastrado");
+      return;
+    }
 
     db.none(
       "INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7);",   //passando parâmetros
