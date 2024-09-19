@@ -89,6 +89,16 @@ app.delete("/users", async (req, res) => {
 
     const id = req.body.cpf; //pega parametro da req
 
+    const exist = await db.oneOrNone(
+      "select 1 from users where cpf = $1",
+      [id]
+    )
+
+    if(!exist){
+      res.status(400).send("Usuário não cadastrado");
+      return;
+    }
+
     db.none(
         "DELETE from users where cpf = $1;", [id] //deleta pelo cpf
     );
