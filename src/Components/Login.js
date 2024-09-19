@@ -1,4 +1,5 @@
 import React from 'react';
+import './Login.css';
 
 function Login(){
   return(
@@ -22,6 +23,7 @@ function Login(){
           <input type="text" placeholder="Telefone 2" />
           <input type="text" placeholder="Cep" />
           <select>
+            <option hidden disabled selected>Cliente ou Prestador</option>
             <option>Prestador</option>
             <option>Cliente</option>
           </select>
