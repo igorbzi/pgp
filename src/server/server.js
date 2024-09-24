@@ -4,7 +4,7 @@ const cors = require('cors')
 
 const pgp = require("pg-promise")({});
 const usuario = "postgres";
-const senha = "1211igorbd";
+const senha = "postgres";
 const db = pgp(`postgres://${usuario}:${senha}@localhost:5432/pgp`);
 
 app.use(cors());
@@ -27,6 +27,7 @@ app.get("/users", async (req, res)=> {
       "select cpf, username, user_email, user_phone, user_phone2, user_address from users"
     );
     res.json(user).status(200);
+    console.log(user);
   } catch (error) {
     console.log(error);
     res.sendStatus(404);
