@@ -1,10 +1,10 @@
 import React from "react";
-import Login from "./Components/Login";
+import Cadastro from "./Components/Cadastro";
 
 function App() {
   return (
     <div>
-      <Login />
+      <Cadastro />
     </div>
   );
 }
