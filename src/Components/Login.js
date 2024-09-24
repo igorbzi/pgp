@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Login.css';
+
+
+
 
 function Login(){
   return(
@@ -9,6 +12,7 @@ function Login(){
         <p>Seja Bem Vindo! <br/>Faça sua conta agora mesmo.</p>
       </div>
       <div className='direita'>
+        <h1>Crie sua Conta</h1>
         <form>
         <input type="text" placeholder="Nome" />
           <input type="text" placeholder="Estado" />
