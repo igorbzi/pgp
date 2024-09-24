@@ -7,6 +7,7 @@ body {
     font-family: 'Arial', sans-serif;
     justify-content: center;
     align-items: center;
+    min-height: 100vh;
     
 }
 
@@ -23,11 +24,13 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 30%;
+    width: 20%;
+    height: 100%;
 }
 
 .esquerda h1 {
     font-size: 3rem;
+    
   }
 
 .direta h1{
@@ -71,16 +74,32 @@ body {
 
   button {
     grid-column: 1 / span 2;
-    width: 100%;
+    width: 40%;
     padding: 1rem;
     border-radius: 0.75rem;
     border: none;
     background-color: black;
     color: white;
     font-size: 1.2rem;
+    justify-self: center;
   }
 
   select {
     grid-column: 1 / span 2;
+    width: 50%;
     text-align-last: center;
+    justify-self: center;
+  }
+
+  .titulo {
+    grid-column: 1  /span 2;
+    text-align: center;
+    font-size: xx-large;
+    font-style: normal;
+  }
+
+  @media (min-width: 601px){
+    .pagina{
+      flex-direction: row;
+    }
   }

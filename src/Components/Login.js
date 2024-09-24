@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import './Login.css';
 
 
@@ -12,8 +11,10 @@ function Login(){
         <p>Seja Bem Vindo! <br/>Faça sua conta agora mesmo.</p>
       </div>
       <div className='direita'>
-        <h1>Crie sua Conta</h1>
         <form>
+        <div className='titulo'>
+      <legend>Crie sua Conta</legend>
+      </div>
         <input type="text" placeholder="Nome" />
           <input type="text" placeholder="Estado" />
           <input type="text" placeholder="Email" />
