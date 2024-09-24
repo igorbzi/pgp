@@ -7,6 +7,7 @@ body {
     font-family: 'Arial', sans-serif;
     justify-content: center;
     align-items: center;
+    
 }
 
 .pagina {
@@ -28,6 +29,11 @@ body {
 .esquerda h1 {
     font-size: 3rem;
   }
+
+.direta h1{
+  font-size:5rem;
+  text-align: center;
+}
   
 .esquerda p {
     font-size: 1.5rem;
@@ -60,6 +66,7 @@ body {
     border: 1px solid #ccc;
     font-size: 1.1rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: rgb(222, 219, 219);
   }
 
   button {
