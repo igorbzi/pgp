@@ -98,6 +98,15 @@ body {
     font-style: normal;
   }
 
+  SelectEst{
+    grid-column: 2;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid #ccc;
+    font-size: 1.1rem;
+  }
+
   @media (min-width: 601px){
     .pagina{
       flex-direction: row;
