@@ -131,6 +131,7 @@ function Login(){
             onChange={(e) => setCep(e.target.value)} 
           />
           <select 
+            className='selectTipo' 
             value={tipo} 
             onChange={(e) => setTipo(e.target.value)}
           >
