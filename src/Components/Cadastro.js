@@ -130,7 +130,6 @@ function Login(){
             value={cep} 
             onChange={(e) => setCep(e.target.value)} 
           />
-          <div className='selectTipo'>
           <select 
             value={tipo} 
             onChange={(e) => setTipo(e.target.value)}
@@ -141,7 +140,6 @@ function Login(){
             <option value="Prestador">Prestador</option>
             <option value="Cliente">Cliente</option>
           </select>
-          </div>
           <button type="submit">Cadastrar</button>
         </form>
       </div>
