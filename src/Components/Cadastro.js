@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Cadastro.css';
+import axios from "axios"
 
 function Login(){
   const [nome, setNome] = useState('');
@@ -15,6 +16,26 @@ function Login(){
   const [telefone2, setTelefone2] = useState('');
   const [cep, setCep] = useState('');
   const [tipo, setTipo] = useState('');
+
+  async function handleSubmit(){
+    try{
+      await axios.post("/users", 
+        {
+          cpf: cpf,
+          nome: nome,
+          passwd: senha,
+          email: email,
+          phone: telefone,
+          phone2: telefone2,
+          address: logradouro + ', ' + numero + ', '+ bairro + ', ' + cidade + ' - ' +  estado + ', CEP: ' + cep
+        }
+      )
+    }
+    catch(error){
+      console.log(error)
+    }
+    console.log('Cadastrado com sucesso!');
+  }
 
   return(
     <div className='pagina'>
@@ -141,7 +162,10 @@ function Login(){
             <option value="Prestador">Prestador</option>
             <option value="Cliente">Cliente</option>
           </select>
-          <button type="submit">Cadastrar</button>
+          <button 
+          type="submit"
+          onClick={handleSubmit()}
+          >Cadastrar</button>
         </form>
       </div>
     </div>

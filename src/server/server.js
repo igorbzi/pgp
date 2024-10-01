@@ -4,7 +4,7 @@ const cors = require('cors')
 
 const pgp = require("pg-promise")({});
 const usuario = "postgres";
-const senha = "postgres";
+const senha = "1211igorbd";
 const db = pgp(`postgres://${usuario}:${senha}@localhost:5432/pgp`);
 
 app.use(cors());
