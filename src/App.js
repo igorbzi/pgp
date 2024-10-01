@@ -1,8 +1,10 @@
-import './App.css';
+import React from "react";
+import Cadastro from "./Components/Cadastro";
 
 function App() {
   return (
-    <div className="App">
+    <div>
+      <Cadastro />
     </div>
   );
 }
