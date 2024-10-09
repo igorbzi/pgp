@@ -4,7 +4,7 @@ const cors = require('cors')
 
 const pgp = require("pg-promise")({});
 const usuario = "postgres";
-const senha = "1211igorbd";
+const senha = "postgres";
 const db = pgp(`postgres://${usuario}:${senha}@localhost:5432/pgp`);
 
 app.use(cors());
@@ -45,7 +45,7 @@ app.post("/users", async (req, res) => {
     const phone2 = req.body.phone2;
     const address = req.body.address;
     
-    console.log(`CPF: ${cpf} Nome: ${nome}`);
+    console.log(`CPF: ${cpf} -- Nome: ${nome} -- Email: ${email}`);
 
     const unique_cpf = await db.oneOrNone(
       "SELECT 1 from users where cpf = $1",

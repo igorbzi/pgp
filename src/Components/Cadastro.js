@@ -44,7 +44,7 @@ function Login(){
         <p>Seja Bem Vindo! <br/>Faça sua conta agora mesmo.</p>
       </div>
       <div className='direita'>
-        <form>
+        <form onSubmit={handleSubmit} >
         <div className='titulo'>
         <legend>Crie sua Conta</legend>
         </div>
@@ -164,7 +164,6 @@ function Login(){
           </select>
           <button 
           type="submit"
-          onClick={handleSubmit()}
           >Cadastrar</button>
         </form>
       </div>
