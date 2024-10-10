@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Cadastro.css';
+import { validarEFormatarCPF } from '../utils/mascara';
 
 function Login(){
   const [nome, setNome] = useState('');
@@ -15,6 +16,10 @@ function Login(){
   const [telefone2, setTelefone2] = useState('');
   const [cep, setCep] = useState('');
   const [tipo, setTipo] = useState('');
+
+  const handleCpfChange = (e) => {
+    setCpf(validarEFormatarCPF(e.target.value));
+  };
 
   return(
     <div className='pagina'>
@@ -98,7 +103,7 @@ function Login(){
             type="text" 
             placeholder="CPF" 
             value={cpf} 
-            onChange={(e) => setCpf(e.target.value)} 
+            onChange={handleCpfChange} 
           />
           <input 
             type="text" 
