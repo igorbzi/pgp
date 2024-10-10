@@ -8,5 +8,6 @@ create table users(
     user_phone varchar(15) unique not null,
     user_phone2 varchar(15),
     user_address varchar(255) not null,
+    user_type tinyint,
     primary key(cpf)
 );

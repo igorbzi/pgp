@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Cadastro.css';
 import axios from "axios"
 
-function Login(){
+function Cadastro(){
   const [nome, setNome] = useState('');
   const [estado, setEstado] = useState('');
   const [email, setEmail] = useState('');
@@ -18,6 +18,7 @@ function Login(){
   const [tipo, setTipo] = useState('');
 
   async function handleSubmit(){
+    console.log(`CPF: ${cpf} - Nome: ${nome} - Email: ${email} - Endereço: ${logradouro + ', ' + numero + ', '+ bairro + ', ' + cidade + ' - ' +  estado + ', CEP: ' + cep} - Telefone1: ${telefone}`);
     try{
       await axios.post("/users", 
         {
@@ -159,12 +160,13 @@ function Login(){
             <option hidden disabled value="">
               Cliente ou Prestador
             </option>
-            <option value="Prestador">Prestador</option>
-            <option value="Cliente">Cliente</option>
+            <option value="0">Prestador</option>
+            <option value="1">Cliente</option>
           </select>
+
           <button 
-          type="submit"
-          onClick={handleSubmit()}
+            type="submit"
+            onClick={handleSubmit()}
           >Cadastrar</button>
         </form>
       </div>
@@ -173,4 +175,4 @@ function Login(){
 }
 
 
-export default Login;
+export default Cadastro;
