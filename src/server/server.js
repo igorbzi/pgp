@@ -44,6 +44,8 @@ app.post("/users", async (req, res) => {
     const phone = req.body.phone;
     const phone2 = req.body.phone2;
     const address = req.body.address;
+    const type = req.body.type;
+    //0 para clientes, 1 para prestador
     
     console.log(`CPF: ${cpf} -- Nome: ${nome} -- Email: ${email} --Senha : ${passwd}`);
 
@@ -74,8 +76,8 @@ app.post("/users", async (req, res) => {
     }
 
     db.none(
-      "INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7);",   //passando parâmetros
-      [cpf, nome, passwd, email, phone, phone2, address]
+      "INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7, $8);",   //passando parâmetros
+      [cpf, nome, passwd, email, phone, phone2, address, type]
     );
     res.sendStatus(200);
 
