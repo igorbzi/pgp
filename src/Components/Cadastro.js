@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {verificarSenha} from '../utils/senha'
 import './Cadastro.css';
 import axios from "axios"
 
@@ -17,25 +18,31 @@ function Login(){
   const [cep, setCep] = useState('');
   const [tipo, setTipo] = useState('');
 
-  async function handleSubmit(){
-    try{
-      await axios.post("/users", 
-        {
-          cpf: cpf,
-          nome: nome,
-          passwd: senha,
-          email: email,
-          phone: telefone,
-          phone2: telefone2,
-          address: logradouro + ', ' + numero + ', '+ bairro + ', ' + cidade + ' - ' +  estado + ', CEP: ' + cep
-        }
-      )
-    }
-    catch(error){
-      console.log(error)
-    }
+  async function handleSubmit(e){
+    e.preventDefault()
+    console.log(senha);
+    
+    if(verificarSenha(senha)){
+
+      try{
+        await axios.post("/users", 
+          {
+            cpf: cpf,
+            nome: nome,
+            passwd: senha,
+            email: email,
+            phone: telefone,
+            phone2: telefone2,
+            address: logradouro + ', ' + numero + ', '+ bairro + ', ' + cidade + ' - ' +  estado + ', CEP: ' + cep
+          }
+        )
+      }
+      catch(error){
+        console.log(error)
+      }
     console.log('Cadastrado com sucesso!');
-  }
+    }
+}
 
   return(
     <div className='pagina'>

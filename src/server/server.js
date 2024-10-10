@@ -45,7 +45,7 @@ app.post("/users", async (req, res) => {
     const phone2 = req.body.phone2;
     const address = req.body.address;
     
-    console.log(`CPF: ${cpf} -- Nome: ${nome} -- Email: ${email}`);
+    console.log(`CPF: ${cpf} -- Nome: ${nome} -- Email: ${email} --Senha : ${passwd}`);
 
     const unique_cpf = await db.oneOrNone(
       "SELECT 1 from users where cpf = $1",
