@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import {verificarSenha} from '../utils/senha'
+import { Box } from '@mui/material';
+
 import './Cadastro.css';
 import axios from "axios"
 
@@ -45,23 +47,51 @@ function Login(){
 }
 
   return(
-    <div className='pagina'>
-      <div className='esquerda'>
+    <Box className='pagina' sx={{
+      flexDirection: {
+        xs: 'column', 
+        sm: 'row', 
+      },
+
+    }} >
+      <Box className='esquerda' sx={{
+              width: {
+                xs: '100%', 
+                sm: '25%', 
+              }, 
+              
+              height: {
+                xs: '30%', 
+                sm: '100%', 
+              },
+
+      }}>
         <h1>QuickFix</h1>
         <p>Seja Bem Vindo! <br/>Faça sua conta agora mesmo.</p>
-      </div>
-      <div className='direita'>
-        <form onSubmit={handleSubmit} >
-        <div className='titulo'>
+      </Box>
+      <Box className='direita'  sx={{
+        width: {
+          xs: '100%', 
+          sm: 'row', 
+        },
+        
+      }}>
+        <form onSubmit={handleSubmit} sx={{
+          background: {
+            xs: 'blue', 
+            sm: 'row', 
+          },
+        }} >
+        <Box className='titulo'>
         <legend>Crie sua Conta</legend>
-        </div>
+        </Box>
           <input 
             type="text" 
             placeholder="Nome" 
             value={nome} 
             onChange={(e) => setNome(e.target.value)} 
           />
-          <div className='SelectEst'>
+          <Box className='SelectEst'>
           <select 
             value={estado} 
             onChange={(e) => setEstado(e.target.value)}
@@ -97,12 +127,14 @@ function Login(){
             <option value="Sergipe">Sergipe</option>
             <option value="Tocantins">Tocantins</option>
           </select>
-          </div>
+          </Box>
           <input 
-            type="text" 
+            type="email" 
             placeholder="Email" 
             value={email} 
             onChange={(e) => setEmail(e.target.value)} 
+            required
+            maxLength="50" 
           />
           <input 
             type="text" 
@@ -173,8 +205,8 @@ function Login(){
           type="submit"
           >Cadastrar</button>
         </form>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 
