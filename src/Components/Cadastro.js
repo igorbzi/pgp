@@ -35,7 +35,8 @@ function Login(){
             email: email,
             phone: telefone,
             phone2: telefone2,
-            address: logradouro + ', ' + numero + ', '+ bairro + ', ' + cidade + ' - ' +  estado + ', CEP: ' + cep
+            address: logradouro + ', ' + numero + ', '+ bairro + ', ' + cidade + ' - ' +  estado + ', CEP: ' + cep,
+            type: parseInt(tipo)
           }
         )
       }
@@ -198,8 +199,8 @@ function Login(){
             <option hidden disabled value="">
               Cliente ou Prestador
             </option>
-            <option value="Prestador">Prestador</option>
-            <option value="Cliente">Cliente</option>
+            <option value="1">Prestador</option>
+            <option value="0">Cliente</option>
           </select>
           <button 
           type="submit"
