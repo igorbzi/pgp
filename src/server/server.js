@@ -1,6 +1,7 @@
-const express = require('express')
-const app = express()
-const cors = require('cors')
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const bcrypt = require('bcrypt');
 
 const pgp = require("pg-promise")({});
 const usuario = "postgres";
@@ -37,9 +38,11 @@ app.get("/users", async (req, res)=> {
 app.post("/users", async (req, res) => {
   try {
 
+    const saltRounds = 10;
     const cpf = req.body.cpf;
     const nome = req.body.nome;
     const passwd = req.body.passwd;
+    const hash = bcrypt.hashSync(passwd, saltRounds);
     const email = req.body.email;
     const phone = req.body.phone;
     const phone2 = req.body.phone2;
