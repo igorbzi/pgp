@@ -5,17 +5,17 @@ export function verificarSenha(senha) {
     }
 
     if (!/[a-z]/.test(senha)) {  
-        console.log("Pelo menos uma letra minúscula");
+        console.log("Senha deve conter pelo menos uma letra minúscula");
         return false;
     }
 
     if (!/[A-Z]/.test(senha)) {  
-        console.log("Pelo menos uma letra maiúscula");
+        console.log("Senha deve conter pelo menos uma letra maiúscula");
         return false;
     }
 
     if (!/[0-9]/.test(senha)) {  
-        console.log("Pelo menos um número");
+        console.log("Senha deve conter pelo menos um número");
         return false;
     }
 
@@ -27,3 +27,8 @@ export function verificarSenha(senha) {
 //console.log(verificarSenha("HELOMEra18")); 
 
 
+export const valida = () => {
+  if(1<2)
+    return false;
+  return true;
+}

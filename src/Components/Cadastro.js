@@ -4,6 +4,7 @@ import { Box } from '@mui/material';
 
 import './Cadastro.css';
 import axios from "axios"
+import { Alert, Snackbar } from '@mui/material';
 
 function Login(){
   const [nome, setNome] = useState('');
@@ -19,10 +20,35 @@ function Login(){
   const [telefone2, setTelefone2] = useState('');
   const [cep, setCep] = useState('');
   const [tipo, setTipo] = useState('');
+  const [openMessage, setOpenMessage] = React.useState(false);
+	const [messageText, setMessageText] = React.useState("");
+	const [messageSeverity, setMessageSeverity] = React.useState("success");
+
+  function handleCloseMessage(_, reason) {
+		if (reason === "clickaway") {
+			return;
+		}
+		setOpenMessage(false);
+	}
+
+  function clearForm(){
+    setCpf("");
+    setNome("");
+    setEstado("");
+    setTelefone("");
+    setTelefone2("");
+    setLogradouro("");
+    setNumero("");
+    setTipo("");
+    setCep("");
+    setBairro("");
+    setCidade("");
+    setEmail("");
+    setSenha("");
+  }
 
   async function handleSubmit(e){
     e.preventDefault()
-    console.log(senha);
     
     if(verificarSenha(senha)){
 
@@ -41,9 +67,14 @@ function Login(){
         )
       }
       catch(error){
-        console.log(error)
+        setMessageSeverity("error")
+        setMessageText(error)
+        setOpenMessage(true)
       }
-    console.log('Cadastrado com sucesso!');
+    setMessageSeverity("success");
+    setMessageText("Cadastrado com sucesso!")
+    setOpenMessage(true)
+    clearForm()
     }
 }
 
@@ -53,12 +84,33 @@ function Login(){
         xs: 'column', 
         sm: 'row', 
       },
+<<<<<<< HEAD
       width: {
         xs: '100vw', 
         sm: 'row', 
       },
 
+=======
+>>>>>>> b114b4f34848274f7b75b4fd09d532b6bb0b2f00
     }} >
+      <Snackbar
+        open={openMessage}
+        autoHideDuration={6000}
+        onClose={handleCloseMessage}
+        anchorOrigin={{vertical: 'top', horizontal: 'left'}}
+      >
+        <Alert
+          variant='filled'
+          severity={messageSeverity}
+          onClose={handleCloseMessage}
+          sx = {{
+            width: '100%'
+          }}
+        >
+          {messageText}
+        </Alert>
+      </Snackbar>
+      
       <Box className='esquerda' sx={{
               width: {
                 xs: '100%', 
@@ -69,12 +121,15 @@ function Login(){
                 xs: '30%', 
                 sm: '100%', 
               },
+<<<<<<< HEAD
               
                 marginBottom: {
                   xs: '2rem', 
                   sm: '1rem', 
                 }
 
+=======
+>>>>>>> b114b4f34848274f7b75b4fd09d532b6bb0b2f00
       }}>
           <h1>QuickFix</h1>
         <Box>
