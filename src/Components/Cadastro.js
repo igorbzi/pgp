@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import './Cadastro.css';
 import { validarEFormatarCPF } from '../utils/mascara';
+import { validarEFormatarTelefone } from '../utils/mascara';
+import { validarEmail } from '../utils/mascara';
 
-function Login(){
+function Cadastro(){
   const [nome, setNome] = useState('');
   const [estado, setEstado] = useState('');
   const [email, setEmail] = useState('');
@@ -20,6 +22,20 @@ function Login(){
   const handleCpfChange = (e) => {
     setCpf(validarEFormatarCPF(e.target.value));
   };
+
+  const handleTelefoneChange = (e) => {
+    setTelefone(validarEFormatarTelefone(e.target.value));
+};
+
+const handleTelefoneChange2 = (e) => {
+  setTelefone2(validarEFormatarTelefone(e.target.value));
+};
+
+const handleEmailChange = (e) => {
+  const valor = e.target.value;
+  (validarEmail(valor))
+  setEmail(valor);
+};
 
   return(
     <div className='pagina'>
@@ -79,7 +95,7 @@ function Login(){
             type="text" 
             placeholder="Email" 
             value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
+            onChange={handleEmailChange} 
           />
           <input 
             type="text" 
@@ -115,7 +131,7 @@ function Login(){
             type="text" 
             placeholder="Telefone" 
             value={telefone} 
-            onChange={(e) => setTelefone(e.target.value)} 
+            onChange={handleTelefoneChange}
           />
           <input 
             type="text" 
@@ -127,7 +143,7 @@ function Login(){
             type="text" 
             placeholder="Telefone 2" 
             value={telefone2} 
-            onChange={(e) => setTelefone2(e.target.value)} 
+            onChange={handleTelefoneChange2}
           />
           <input 
             type="text" 
@@ -154,4 +170,4 @@ function Login(){
 }
 
 
-export default Login;
+export default Cadastro;
