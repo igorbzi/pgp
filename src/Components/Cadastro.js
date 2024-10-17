@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {verificarSenha} from '../utils/senha'
 import './Cadastro.css';
 import axios from "axios"
+import { Alert, Snackbar } from '@mui/material';
 
 function Login(){
   const [nome, setNome] = useState('');
@@ -17,10 +18,35 @@ function Login(){
   const [telefone2, setTelefone2] = useState('');
   const [cep, setCep] = useState('');
   const [tipo, setTipo] = useState('');
+  const [openMessage, setOpenMessage] = React.useState(false);
+	const [messageText, setMessageText] = React.useState("");
+	const [messageSeverity, setMessageSeverity] = React.useState("success");
+
+  function handleCloseMessage(_, reason) {
+		if (reason === "clickaway") {
+			return;
+		}
+		setOpenMessage(false);
+	}
+
+  function clearForm(){
+    setCpf("");
+    setNome("");
+    setEstado("");
+    setTelefone("");
+    setTelefone2("");
+    setLogradouro("");
+    setNumero("");
+    setTipo("");
+    setCep("");
+    setBairro("");
+    setCidade("");
+    setEmail("");
+    setSenha("");
+  }
 
   async function handleSubmit(e){
     e.preventDefault()
-    console.log(senha);
     
     if(verificarSenha(senha)){
 
@@ -39,14 +65,36 @@ function Login(){
         )
       }
       catch(error){
-        console.log(error)
+        setMessageSeverity("error")
+        setMessageText(error)
+        setOpenMessage(true)
       }
-    console.log('Cadastrado com sucesso!');
+    setMessageSeverity("success");
+    setMessageText("Cadastrado com sucesso!")
+    setOpenMessage(true)
+    clearForm()
     }
 }
 
   return(
     <div className='pagina'>
+      <Snackbar
+        open={openMessage}
+        autoHideDuration={6000}
+        onClose={handleCloseMessage}
+        anchorOrigin={{vertical: 'top', horizontal: 'left'}}
+      >
+        <Alert
+          variant='filled'
+          severity={messageSeverity}
+          onClose={handleCloseMessage}
+          sx = {{
+            width: '100%'
+          }}
+        >
+          {messageText}
+        </Alert>
+      </Snackbar>
       <div className='esquerda'>
         <h1>QuickFix</h1>
         <p>Seja Bem Vindo! <br/>Faça sua conta agora mesmo.</p>
