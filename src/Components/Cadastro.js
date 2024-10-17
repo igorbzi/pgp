@@ -84,14 +84,11 @@ function Login(){
         xs: 'column', 
         sm: 'row', 
       },
-<<<<<<< HEAD
       width: {
         xs: '100vw', 
         sm: 'row', 
       },
 
-=======
->>>>>>> b114b4f34848274f7b75b4fd09d532b6bb0b2f00
     }} >
       <Snackbar
         open={openMessage}
@@ -121,15 +118,10 @@ function Login(){
                 xs: '30%', 
                 sm: '100%', 
               },
-<<<<<<< HEAD
-              
-                marginBottom: {
-                  xs: '2rem', 
-                  sm: '1rem', 
-                }
-
-=======
->>>>>>> b114b4f34848274f7b75b4fd09d532b6bb0b2f00
+              marginBottom: {
+                xs: '2rem', 
+                sm: '1rem', 
+              }
       }}>
           <h1>QuickFix</h1>
         <Box>
