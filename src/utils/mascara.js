@@ -20,7 +20,13 @@ export const validarEFormatarCPF = (valor) => {
 };
 
 export const validarEmail = (valor) => {
-  return valor.includes('@') && valor.includes('.');
+  if(valor.includes('@') && valor.includes('.')){
+    console.log('Email Valido')
+    return true;
+  }else{
+    console.log('Email Invalido')
+    return false;
+  }
 };
 
   
