@@ -1,10 +1,11 @@
-const express = require('express')
-const app = express()
-const cors = require('cors')
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const bcrypt = require('bcrypt');
 
 const pgp = require("pg-promise")({});
 const usuario = "postgres";
-const senha = "1211igorbd";
+const senha = "postgres";
 const db = pgp(`postgres://${usuario}:${senha}@localhost:5432/pgp`);
 
 app.use(cors());
@@ -37,15 +38,17 @@ app.get("/users", async (req, res)=> {
 app.post("/users", async (req, res) => {
   try {
 
+    const saltRounds = 10;
     const cpf = req.body.cpf;
     const nome = req.body.nome;
     const passwd = req.body.passwd;
+    const hash = bcrypt.hashSync(passwd, saltRounds);
     const email = req.body.email;
     const phone = req.body.phone;
     const phone2 = req.body.phone2;
     const address = req.body.address;
-    
-    console.log(`CPF: ${cpf} Nome: ${nome}`);
+    const type = req.body.type;
+    //0 para clientes, 1 para prestador
 
     const unique_cpf = await db.oneOrNone(
       "SELECT 1 from users where cpf = $1",
@@ -74,14 +77,18 @@ app.post("/users", async (req, res) => {
     }
 
     db.none(
-      "INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7);",   //passando parâmetros
-      [cpf, nome, passwd, email, phone, phone2, address]
-    );
-    res.sendStatus(200);
+      "INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7, $8);",   //passando parâmetros
+      [cpf, nome, passwd, email, phone, phone2, address, type]
+    ).then(()=>{
+      res.sendStatus(200);
+    }).catch(error => {
+      res.status(400).send("Preencha todos os campos!");
+      return
+    })
 
   } catch (error) {
     console.log(error);
-    res.sendStatus(400);
+    res.status(400).send("Preencha todos os campos obrigatórios!");
   }
 });
 
