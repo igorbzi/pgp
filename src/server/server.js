@@ -49,8 +49,6 @@ app.post("/users", async (req, res) => {
     const address = req.body.address;
     const type = req.body.type;
     //0 para clientes, 1 para prestador
-    
-    console.log(`CPF: ${cpf} -- Nome: ${nome} -- Email: ${email} --Senha : ${passwd}`);
 
     const unique_cpf = await db.oneOrNone(
       "SELECT 1 from users where cpf = $1",
@@ -81,12 +79,16 @@ app.post("/users", async (req, res) => {
     db.none(
       "INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7, $8);",   //passando parâmetros
       [cpf, nome, passwd, email, phone, phone2, address, type]
-    );
-    res.sendStatus(200);
+    ).then(()=>{
+      res.sendStatus(200);
+    }).catch(error => {
+      res.status(400).send("Preencha todos os campos!");
+      return
+    })
 
   } catch (error) {
     console.log(error);
-    res.sendStatus(400);
+    res.status(400).send("Preencha todos os campos obrigatórios!");
   }
 });
 

@@ -53,7 +53,7 @@ function Login(){
     if(verificarSenha(senha)){
 
       try{
-        await axios.post("/users", 
+        const retorno = await axios.post("/users", 
           {
             cpf: cpf,
             nome: nome,
@@ -65,16 +65,15 @@ function Login(){
             type: parseInt(tipo)
           }
         )
+        setMessageSeverity("primal");
+        setMessageText("alerta");
+        setOpenMessage(true);
       }
       catch(error){
         setMessageSeverity("error")
         setMessageText(error)
         setOpenMessage(true)
       }
-    setMessageSeverity("success");
-    setMessageText("Cadastrado com sucesso!")
-    setOpenMessage(true)
-    clearForm()
     }
 }
 
@@ -94,7 +93,7 @@ function Login(){
         open={openMessage}
         autoHideDuration={6000}
         onClose={handleCloseMessage}
-        anchorOrigin={{vertical: 'top', horizontal: 'left'}}
+        anchorOrigin={{vertical: 'top', horizontal: 'right'}}
       >
         <Alert
           variant='filled'
