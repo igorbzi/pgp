@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 import './Cadastro.css';
 import axios from "axios"
 import { Alert, Snackbar } from '@mui/material';
-import { formatarCEP, validarEFormatarCPF, validarEFormatarTelefone } from '../utils/mascara';
+import { formatarCEP, validarEFormatarCPF, validarEFormatarTelefone, validarEmail } from '../utils/mascara';
 
 function Cadastro(){
   const [nome, setNome] = useState('');
@@ -48,36 +48,65 @@ function Cadastro(){
     setSenha("");
   }
 
+  function verificarCampos(email, senha, telefone, telefone2, cpf, cep){
+    const v_email = validarEmail(email);
+    if(!v_email) {
+      return (true ,"Email inválido")
+    }
+    const v_senha = verificarSenha(senha);
+    if(!v_senha){
+      return (true, "Senha deve ser mais forte!")
+    }
+    if(telefone.length !== 14 || (telefone2.length !== 14 && telefone2.length !== 0)){
+      console.log(telefone.length)
+      console.log(telefone2.length)
+      return (true, "Telefone inválido!")
+    }
+    if(cpf.length !== 14){
+      return (true, "CPF inválido!")
+    }
+    if(cep.length !== 9){
+      return (true, "CEP inválido!")
+    }
+    return false;
+  }
+
   async function handleSubmit(e){
     e.preventDefault()
 
-    if(verificarSenha(senha)){
+    const valida = verificarCampos(email, senha, telefone, telefone2, cpf, cep);
 
-      try{
-        await axios.post("/users", 
-          {
-            cpf: cpf,
-            nome: nome,
-            passwd: senha,
-            email: email,
-            phone: telefone,
-            phone2: telefone2,
-            address: logradouro + ', ' + numero + ', '+ bairro + ', ' + cidade + ' - ' +  estado + ', CEP: ' + cep,
-            type: parseInt(tipo)
-          }
-        )
-      }
-      catch(error){
-        setMessageSeverity("error")
-        setMessageText(error.response.data)
-        console.log(error)
-        setOpenMessage(true)
-      }
-      setMessageSeverity("success")
-      setMessageText("Usuário cadastrado com sucesso!")
+    if(valida){
+      setMessageSeverity("error")
+      setMessageText(valida)
       setOpenMessage(true)
-      clearForm()
+      return;
     }
+
+    try{
+      await axios.post("/users", 
+        {
+          cpf: cpf,
+          nome: nome,
+          passwd: senha,
+          email: email,
+          phone: telefone,
+          phone2: telefone2,
+          address: logradouro + ', ' + numero + ', '+ bairro + ', ' + cidade + ' - ' +  estado + ', CEP: ' + cep,
+          type: parseInt(tipo)
+        }
+      )
+    }
+    catch(error){
+      setMessageSeverity("error")
+      setMessageText(error.response.data)
+      console.log(error)
+      setOpenMessage(true)
+    }
+    setMessageSeverity("success")
+    setMessageText("Usuário cadastrado com sucesso!")
+    setOpenMessage(true)
+    clearForm()
 }
 
   return(

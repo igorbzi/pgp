@@ -20,13 +20,11 @@ export const validarEFormatarTelefone = (valor) => {
 };
 
 export const validarEmail = (valor) => {
-if(valor.includes('@') && valor.includes('.')){
-  console.log('Email Valido')
-  return true;
-}else{
-  console.log('Email Invalido')
-  return false;
-}
+  if(valor.includes('@') && valor.includes('.')){
+    return true;
+  }else{
+    return false;
+  }
 };
 
 export const formatarCEP = (str) => {
