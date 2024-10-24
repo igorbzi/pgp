@@ -5,6 +5,7 @@ import { Box } from '@mui/material';
 import './Cadastro.css';
 import axios from "axios"
 import { Alert, Snackbar } from '@mui/material';
+import { formatarCEP, validarEFormatarCPF, validarEFormatarTelefone } from '../utils/mascara';
 
 function Cadastro(){
   const [nome, setNome] = useState('');
@@ -222,7 +223,7 @@ function Cadastro(){
                 placeholder="CPF" 
                 maxLength="14"
                 value={cpf} 
-                onChange={(e) => setCpf(e.target.value)} 
+                onChange={(e) => setCpf(validarEFormatarCPF(e.target.value))} 
               />
             
             <input 
@@ -237,7 +238,7 @@ function Cadastro(){
               placeholder="Telefone" 
               maxLength="14"
               value={telefone} 
-              onChange={(e) => setTelefone(e.target.value)} 
+              onChange={(e) => setTelefone(validarEFormatarTelefone(e.target.value))} 
             />
             <input 
               type="text" 
@@ -251,14 +252,14 @@ function Cadastro(){
               placeholder="Telefone 2" 
               maxLength="14"
               value={telefone2} 
-              onChange={(e) => setTelefone2(e.target.value)} 
+              onChange={(e) => setTelefone2(validarEFormatarTelefone(e.target.value))} 
             />
             <input 
               type="text" 
               placeholder="Cep" 
               maxLength="9"
               value={cep} 
-              onChange={(e) => setCep(e.target.value)} 
+              onChange={(e) => setCep(formatarCEP(e.target.value))} 
             />
             <select 
               className='selectTipo' 
