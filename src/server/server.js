@@ -184,10 +184,10 @@ app.delete("/services", async (req, res) => {
       "DELETE from services where cod_service = $1;",
       [id] 
     );
-    res.sendStatus(200);
+    res.status(200).send("Serviço removido!");
   } catch (error) {
     console.log(error);
-    res.sendStatus(400);
+    res.status(400).send("Erro ao remover serviço!");
   }
 });
 
@@ -229,7 +229,7 @@ app.put("/services", async (req, res) => {
         res.sendStatus(200);
       })
       .catch((error) => {
-        res.status(400).send(error);
+        res.status(400).send('Erro ao atualizar serviço!');
         console.log(error);
         return;
       });

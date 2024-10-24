@@ -49,11 +49,11 @@ function Login(){
 
   async function handleSubmit(e){
     e.preventDefault()
-    
+
     if(verificarSenha(senha)){
 
       try{
-        const retorno = await axios.post("/users", 
+        await axios.post("/users", 
           {
             cpf: cpf,
             nome: nome,
@@ -65,10 +65,6 @@ function Login(){
             type: parseInt(tipo)
           }
         )
-        console.log(retorno)
-        setMessageSeverity('primal');
-        setMessageText('alerta');
-        setOpenMessage(true);
       }
       catch(error){
         setMessageSeverity("error")
@@ -76,6 +72,10 @@ function Login(){
         console.log(error)
         setOpenMessage(true)
       }
+      setMessageSeverity("success")
+      setMessageText("Usuário cadastrado com sucesso!")
+      setOpenMessage(true)
+      clearForm()
     }
 }
 
