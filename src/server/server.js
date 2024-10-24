@@ -155,7 +155,7 @@ app.post("/services", async (req, res) => {
         res.sendStatus(200);
       })
       .catch((error) => {
-        res.status(400).send(error);
+        res.status(400).send("Preencha todos os campos corretamente!");
         console.log(error);
         return;
       });
@@ -176,7 +176,7 @@ app.delete("/services", async (req, res) => {
     );
 
     if (!exist) {
-      res.status(400).send("Serviço não cadastrado");
+      res.status(400).send("Serviço não cadastrado!");
       return;
     }
 
@@ -223,7 +223,7 @@ app.put("/services", async (req, res) => {
     await db
       .none(
         "UPDATE services SET service_name = $1, service_price = $2, service_type = $3, service_description = $4, material_disp = $5 WHERE cod_service = $6;", 
-        [service_name,service_price,service_category.cod_type_service,service_description,material_disp,id]
+        [service_name, service_price, service_category.cod_type_service, service_description, material_disp,id]
       )
       .then(() => {
         res.sendStatus(200);
