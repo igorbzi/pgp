@@ -22,13 +22,3 @@ export function verificarSenha(senha) {
 
     return true; 
 }  
-
-// Exemplo de uso  
-//console.log(verificarSenha("HELOMEra18")); 
-
-
-export const valida = () => {
-  if(1<2)
-    return false;
-  return true;
-}

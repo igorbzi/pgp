@@ -49,11 +49,11 @@ function Cadastro(){
 
   async function handleSubmit(e){
     e.preventDefault()
-    
+
     if(verificarSenha(senha)){
 
       try{
-        const retorno = await axios.post("/users", 
+        await axios.post("/users", 
           {
             cpf: cpf,
             nome: nome,
@@ -65,15 +65,17 @@ function Cadastro(){
             type: parseInt(tipo)
           }
         )
-        setMessageSeverity("primal");
-        setMessageText("alerta");
-        setOpenMessage(true);
       }
       catch(error){
         setMessageSeverity("error")
-        setMessageText(error)
+        setMessageText(error.response.data)
+        console.log(error)
         setOpenMessage(true)
       }
+      setMessageSeverity("success")
+      setMessageText("Usuário cadastrado com sucesso!")
+      setOpenMessage(true)
+      clearForm()
     }
 }
 
@@ -142,7 +144,8 @@ function Cadastro(){
             <form onSubmit={handleSubmit} >
             <input 
               type="text" 
-              placeholder="Nome" 
+              placeholder="Nome"
+              maxLength="255"
               value={nome} 
               onChange={(e) => setNome(e.target.value)} 
             />
@@ -158,7 +161,8 @@ function Cadastro(){
             
             <input 
               type="password" 
-              placeholder="Senha" 
+              placeholder="Senha"
+              maxLength="50" 
               value={senha} 
               onChange={(e) => setSenha(e.target.value)} 
             />
@@ -166,6 +170,7 @@ function Cadastro(){
               <input 
                 type="text" 
                 placeholder="Cidade" 
+                maxLenght="150"
                 value={cidade} 
                 onChange={(e) => setCidade(e.target.value)} 
               />
@@ -208,12 +213,14 @@ function Cadastro(){
             <input 
               type="text" 
               placeholder="Bairro" 
+              maxLenght="50"
               value={bairro} 
               onChange={(e) => setBairro(e.target.value)} 
             />
               <input 
                 type="text" 
                 placeholder="CPF" 
+                maxLength="14"
                 value={cpf} 
                 onChange={(e) => setCpf(e.target.value)} 
               />
@@ -221,30 +228,35 @@ function Cadastro(){
             <input 
               type="text" 
               placeholder="Logradouro" 
+              maxLength="50"
               value={logradouro} 
               onChange={(e) => setLogradouro(e.target.value)} 
             />
             <input 
               type="text" 
               placeholder="Telefone" 
+              maxLength="14"
               value={telefone} 
               onChange={(e) => setTelefone(e.target.value)} 
             />
             <input 
               type="text" 
               placeholder="Número" 
+              maxLenght="5"
               value={numero} 
               onChange={(e) => setNumero(e.target.value)} 
             />
             <input 
               type="text" 
               placeholder="Telefone 2" 
+              maxLength="14"
               value={telefone2} 
               onChange={(e) => setTelefone2(e.target.value)} 
             />
             <input 
               type="text" 
               placeholder="Cep" 
+              maxLength="9"
               value={cep} 
               onChange={(e) => setCep(e.target.value)} 
             />
