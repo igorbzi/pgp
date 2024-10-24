@@ -65,24 +65,25 @@ app.post("/users", async (req, res) => {
     );
 
     if (unique_cpf) {
-      res.status(400).send("CPF já cadastrado");
+      res.status(400).send("CPF já cadastrado!");
       return;
     } else if (unique_email) {
-      res.status(400).send("Email já cadastrado");
+      res.status(400).send("E-mail já cadastrado!");
       return;
     } else if (unique_phone) {
-      res.status(400).send("Telefone principal já cadastrado");
+      res.status(400).send("Telefone principal já cadastrado!");
       return;
     }
 
     db.none(
       "INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7, $8);", //passando parâmetros
-      [cpf, nome, passwd, email, phone, phone2, address, type]
+      [cpf, nome, hash, email, phone, phone2, address, type]
     )
       .then(() => {
-        res.sendStatus(200);
+        res.status(200).send("Cadastro realizado com sucesso!");
       })
       .catch((error) => {
+        console.log(`cpf: ${cpf} ${email} ${phone} ${address} ${passwd} ${type}`)
         res.status(400).send("Preencha todos os campos!");
         return;
       });
@@ -101,7 +102,7 @@ app.delete("/users", async (req, res) => {
     ]);
 
     if (!exist) {
-      res.status(400).send("Usuário não cadastrado");
+      res.status(400).send("Usuário não cadastrado!");
       return;
     }
 
@@ -120,14 +121,13 @@ app.delete("/users", async (req, res) => {
 app.get("/services", async (req, res) => {
   try {
     const services = await db.any("select * from services");
-    //const user = await db.any(
-    //"select cpf, username, user_email, user_phone, user_phone2, user_address from users"
-    //);
     res.json(services).status(200);
     console.log(services);
+
   } catch (error) {
     console.log(error);
-    res.sendStatus(404);
+    res.sendStatus(400);
+
   }
 });
 
