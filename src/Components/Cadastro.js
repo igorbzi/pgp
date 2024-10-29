@@ -48,25 +48,28 @@ function Cadastro(){
     setSenha("");
   }
 
-  function verificarCampos(email, senha, telefone, telefone2, cpf, cep){
+  function verificarCampos(email, senha, telefone, telefone2, cpf, cep, bairro, cidade, estado, numero, logradouro){
     const v_email = validarEmail(email);
     if(!v_email) {
-      return (true ,"Email inválido")
+      return "Email inválido"
     }
-    const v_senha = verificarSenha(senha);
-    if(!v_senha){
-      return (true, "Senha deve ser mais forte!")
+    if(cpf.length !== 14){
+      return "CPF inválido!"
     }
     if(telefone.length !== 14 || (telefone2.length !== 14 && telefone2.length !== 0)){
       console.log(telefone.length)
       console.log(telefone2.length)
-      return (true, "Telefone inválido!")
+      return "Telefone inválido!"
     }
-    if(cpf.length !== 14){
-      return (true, "CPF inválido!")
+    const v_senha = verificarSenha(senha);
+    if(!v_senha){
+      return "Senha deve ser mais forte!"
     }
     if(cep.length !== 9){
-      return (true, "CEP inválido!")
+      return "CEP inválido!"
+    }
+    if(bairro === '' || cidade === '' || estado === '' || numero === '' || logradouro === ''){
+      return "Preencha todos os campos de endereço!"
     }
     return false;
   }
@@ -74,7 +77,7 @@ function Cadastro(){
   async function handleSubmit(e){
     e.preventDefault()
 
-    const valida = verificarCampos(email, senha, telefone, telefone2, cpf, cep);
+    const valida = verificarCampos(email, senha, telefone, telefone2, cpf, cep, bairro, cidade, estado, numero, logradouro);
 
     if(valida){
       setMessageSeverity("error")
@@ -188,7 +191,13 @@ function Cadastro(){
               required
               maxLength="50" 
             />
-            
+            <input 
+              type="text" 
+              placeholder="CPF" 
+              maxLength="14"
+              value={cpf} 
+              onChange={(e) => setCpf(validarEFormatarCPF(e.target.value))} 
+            />
             <input 
               type="password" 
               placeholder="Senha"
@@ -196,6 +205,31 @@ function Cadastro(){
               value={senha} 
               onChange={(e) => setSenha(e.target.value)} 
             />
+            <input 
+              type="text" 
+              placeholder="Telefone" 
+              maxLength="14"
+              value={telefone} 
+              onChange={(e) => setTelefone(validarEFormatarTelefone(e.target.value))} 
+            />
+            <input 
+              type="text" 
+              placeholder="Telefone 2 (Opcional)" 
+              maxLength="14"
+              value={telefone2} 
+              onChange={(e) => setTelefone2(validarEFormatarTelefone(e.target.value))} 
+            />
+            <select 
+              className='selectTipo' 
+              value={tipo} 
+              onChange={(e) => setTipo(e.target.value)}
+            >
+              <option hidden disabled value="">
+                Cliente ou Prestador
+              </option>
+              <option value="1">Prestador</option>
+              <option value="0">Cliente</option>
+            </select>
             <Box className='cidade_uf'>
               <input 
                 type="text" 
@@ -246,28 +280,13 @@ function Cadastro(){
               maxLenght="50"
               value={bairro} 
               onChange={(e) => setBairro(e.target.value)} 
-            />
-              <input 
-                type="text" 
-                placeholder="CPF" 
-                maxLength="14"
-                value={cpf} 
-                onChange={(e) => setCpf(validarEFormatarCPF(e.target.value))} 
-              />
-            
+            />         
             <input 
               type="text" 
-              placeholder="Logradouro" 
+              placeholder="Rua" 
               maxLength="50"
               value={logradouro} 
               onChange={(e) => setLogradouro(e.target.value)} 
-            />
-            <input 
-              type="text" 
-              placeholder="Telefone" 
-              maxLength="14"
-              value={telefone} 
-              onChange={(e) => setTelefone(validarEFormatarTelefone(e.target.value))} 
             />
             <input 
               type="text" 
@@ -278,29 +297,11 @@ function Cadastro(){
             />
             <input 
               type="text" 
-              placeholder="Telefone 2" 
-              maxLength="14"
-              value={telefone2} 
-              onChange={(e) => setTelefone2(validarEFormatarTelefone(e.target.value))} 
-            />
-            <input 
-              type="text" 
-              placeholder="Cep" 
+              placeholder="CEP" 
               maxLength="9"
               value={cep} 
               onChange={(e) => setCep(formatarCEP(e.target.value))} 
             />
-            <select 
-              className='selectTipo' 
-              value={tipo} 
-              onChange={(e) => setTipo(e.target.value)}
-            >
-              <option hidden disabled value="">
-                Cliente ou Prestador
-              </option>
-              <option value="1">Prestador</option>
-              <option value="0">Cliente</option>
-            </select>
             <button 
             type="submit"
             >Cadastrar</button>

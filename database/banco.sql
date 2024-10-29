@@ -21,10 +21,17 @@ create table services(
   material_disp boolean,
   primary key(cod_service),
   foreign key(service_type) references service_type(cod_type_service)
-)
+);
 
 create table service_type(
   cod_type_service serial,
   type_name varchar(255) not null,
   primary key(cod_type_service)
-)
+);
+
+create table service_user(
+  cod_user varchar(15) not null,
+  cod_service integer not null,
+  foreign key(cod_user) references users(cpf),
+  foreign key(cod_service) references services(cod_service)
+);

@@ -107,7 +107,7 @@ app.delete("/users", async (req, res) => {
     }
 
     db.none(
-      "DELETE from users where cpf = $1;",
+      "DELETE from users where cpf = $1",
       [id] //deleta pelo cpf
     );
     res.sendStatus(200);
@@ -127,7 +127,21 @@ app.get("/services", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.sendStatus(400);
+  }
+});
 
+app.get("/my_services", async (req, res) => {
+  const cpf = req.query['cpf']
+  console.log(req.query)
+
+  try {
+    const services = await db.any("select sr.cod_service, sr.service_name, sr.service_price, st.type_name, sr.material_disp, sr.service_description from services sr join service_user su on sr.cod_service=su.cod_service join service_type st on st.cod_type_service = sr.service_type join users u on u.cpf = su.cod_user where u.cpf = $1", [cpf]);
+    res.json(services).status(200);
+    console.log(services);
+
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(400);
   }
 });
 

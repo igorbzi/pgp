@@ -1,5 +1,5 @@
 import React from "react";
-import Cadastro from "./Components/Cadastro";
+import Servicos from "./Components/Servicos";
 import axios from "axios";
 
 
@@ -11,7 +11,7 @@ axios.defaults.headers.common["Content-Type"] =
 function App() {
   return (
     <div>
-      <Cadastro />
+      <Servicos />
     </div>
   );
 }
