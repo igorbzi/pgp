@@ -1,5 +1,6 @@
 import React from "react";
 import Servicos from "./Components/Servicos";
+//import Cadastro from "./Components/Cadastro";
 import axios from "axios";
 
 

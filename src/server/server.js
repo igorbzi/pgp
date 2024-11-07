@@ -135,7 +135,7 @@ app.get("/my_services", async (req, res) => {
   console.log(req.query)
 
   try {
-    const services = await db.any("select sr.cod_service, sr.service_name, sr.service_price, st.type_name, sr.material_disp, sr.service_description from services sr join service_user su on sr.cod_service=su.cod_service join service_type st on st.cod_type_service = sr.service_type join users u on u.cpf = su.cod_user where u.cpf = $1", [cpf]);
+    const services = await db.any("select sr.cod_service, sr.service_name, sr.service_price, st.type_name, sr.material_disp, sr.service_description from services sr join service_type st on st.cod_type_service = sr.service_type");
     res.json(services).status(200);
     console.log(services);
 
@@ -153,17 +153,12 @@ app.post("/services", async (req, res) => {
     const service_type = req.body.service_type;
     const material_disp = req.body.material_disp;
 
-    const service_category = await db.oneOrNone(
-      "SELECT cod_type_service from service_type where type_name = $1",
-      [service_type]
-    );
-
-    console.log(service_category);
+    console.log(service_type);
 
     await db
       .none(
         "INSERT INTO services (service_name, service_price, service_type, service_description, material_disp) VALUES ($1, $2, $3, $4, $5);", //passando parâmetros
-        [service_name,service_price,service_category.cod_type_service,service_description,material_disp]
+        [service_name, service_price, service_type, service_description, material_disp]
       )
       .then(() => {
         res.sendStatus(200);
@@ -173,6 +168,7 @@ app.post("/services", async (req, res) => {
         console.log(error);
         return;
       });
+
   } catch (error) {
     console.log(error);
     res.status(400).send(error);
@@ -253,3 +249,19 @@ app.put("/services", async (req, res) => {
   }
 }
 );
+
+
+app.get('/categories', async (req, res) => {
+
+  try{
+    const categories = await db.any(
+      'select * from service_type;'
+    )
+    console.log(categories);
+    res.json(categories).status(200)
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(400);
+  }
+  
+})

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography, Button, Snackbar, Alert, CircularProgress, Grid2 } from '@mui/material';
 import axios from 'axios';
 import CardItem from './CardItem';
+import ModalPopUp from './Modal';
 
 function Servicos() {
 
@@ -11,6 +12,9 @@ function Servicos() {
 	const [messageText, setMessageText] = useState("");
 	const [messageSeverity, setMessageSeverity] = useState("success");
   const [cpf, setCPF] = useState("000.111.222-33")
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => {setOpenModal(true)};
+  const handleCloseModal = () => {setOpenModal(false); getData()};
 
   function handleCloseMessage(_, reason) {
 		if (reason === "clickaway") {
@@ -19,7 +23,7 @@ function Servicos() {
 		setOpenMessage(false);
 	}
 
-  useEffect(() => {
+  async function getData(){
     axios.get(`/my_services/?cpf=${cpf}`)
     .then((res) => {
       if(res.data.length === 0){
@@ -41,7 +45,11 @@ function Servicos() {
       setLoading(false)
       console.log(error)
     })
-  }, [])
+  }
+
+  useEffect(() => {
+    getData();
+  });
 
   return (
     <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -83,10 +91,17 @@ function Servicos() {
         <Button 
           variant="contained" 
           sx={{ backgroundColor: '#fff', color: '#000', marginRight: '16px' }}
+          onClick={handleOpenModal}
         >
           Adicionar Serviços
         </Button>
       </Box>
+
+      <ModalPopUp
+        openModal={openModal}
+        handleClose={handleCloseModal}>
+
+      </ModalPopUp>
 
       <Grid2 container 
       spacing={3} 
@@ -118,7 +133,7 @@ function Servicos() {
             color: '#fff', 
             position: 'absolute', 
             bottom: '16px', 
-            right: '16px' 
+            right: '16px'
           }}
         >
           Sair

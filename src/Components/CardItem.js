@@ -9,11 +9,14 @@ function CardItem(props){
       variant="outlined"
       sx={{
         maxWidth: 250,
-        backgroundColor: grey[400]
+        backgroundColor: grey[400],
+        height: 250,
+        width: 250,
+        display: "flex",
+        flexDirection: "column"
       }}
     >
       <CardContent
-
       >
         <Typography variant="h5" component="div" sx={{
           color: '#fffff',
@@ -32,7 +35,7 @@ function CardItem(props){
           Preço: R$ {props.price}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions disableSpacing sx={{ mt: "auto" }}>
         <Button size="small" >Editar</Button>
         <Button size="small" color="error">Excluir</Button>
       </CardActions>
