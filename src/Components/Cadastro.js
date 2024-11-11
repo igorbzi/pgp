@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
+import {verificarSenha} from '../utils/senha'
+import { Box } from '@mui/material';
+
 import './Cadastro.css';
+import axios from "axios"
 import { validarEFormatarCPF } from '../utils/mascara';
 import { validarEFormatarTelefone } from '../utils/mascara';
 import { validarEmail } from '../utils/mascara';
@@ -18,6 +22,32 @@ function Cadastro(){
   const [telefone2, setTelefone2] = useState('');
   const [cep, setCep] = useState('');
   const [tipo, setTipo] = useState('');
+
+  async function handleSubmit(e){
+    e.preventDefault()
+    console.log(senha);
+    
+    if(verificarSenha(senha)){
+
+      try{
+        await axios.post("/users", 
+          {
+            cpf: cpf,
+            nome: nome,
+            passwd: senha,
+            email: email,
+            phone: telefone,
+            phone2: telefone2,
+            address: logradouro + ', ' + numero + ', '+ bairro + ', ' + cidade + ' - ' +  estado + ', CEP: ' + cep
+          }
+        )
+      }
+      catch(error){
+        console.log(error)
+      }
+    console.log('Cadastrado com sucesso!');
+    }
+}
 
   const handleCpfChange = (e) => {
     setCpf(validarEFormatarCPF(e.target.value));
@@ -38,23 +68,51 @@ const handleEmailChange = (e) => {
 };
 
   return(
-    <div className='pagina'>
-      <div className='esquerda'>
+    <Box className='pagina' sx={{
+      flexDirection: {
+        xs: 'column', 
+        sm: 'row', 
+      },
+
+    }} >
+      <Box className='esquerda' sx={{
+              width: {
+                xs: '100%', 
+                sm: '25%', 
+              }, 
+              
+              height: {
+                xs: '30%', 
+                sm: '100%', 
+              },
+
+      }}>
         <h1>QuickFix</h1>
         <p>Seja Bem Vindo! <br/>Faça sua conta agora mesmo.</p>
-      </div>
-      <div className='direita'>
-        <form>
-        <div className='titulo'>
+      </Box>
+      <Box className='direita'  sx={{
+        width: {
+          xs: '100%', 
+          sm: 'row', 
+        },
+        
+      }}>
+        <form onSubmit={handleSubmit} sx={{
+          background: {
+            xs: 'blue', 
+            sm: 'row', 
+          },
+        }} >
+        <Box className='titulo'>
         <legend>Crie sua Conta</legend>
-        </div>
+        </Box>
           <input 
             type="text" 
             placeholder="Nome" 
             value={nome} 
             onChange={(e) => setNome(e.target.value)} 
           />
-          <div className='SelectEst'>
+          <Box className='SelectEst'>
           <select 
             value={estado} 
             onChange={(e) => setEstado(e.target.value)}
@@ -90,12 +148,14 @@ const handleEmailChange = (e) => {
             <option value="Sergipe">Sergipe</option>
             <option value="Tocantins">Tocantins</option>
           </select>
-          </div>
+          </Box>
           <input 
-            type="text" 
+            type="email" 
             placeholder="Email" 
             value={email} 
-            onChange={handleEmailChange} 
+            onChange={(e) => setEmail(e.target.value)} 
+            required
+            maxLength="50" 
           />
           <input 
             type="text" 
@@ -162,10 +222,12 @@ const handleEmailChange = (e) => {
             <option value="Prestador">Prestador</option>
             <option value="Cliente">Cliente</option>
           </select>
-          <button type="submit">Cadastrar</button>
+          <button 
+          type="submit"
+          >Cadastrar</button>
         </form>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 
