@@ -1,14 +1,11 @@
+import './Cadastro.css';
+import axios from "axios"
 import React, { useState } from 'react';
+import { Alert, Snackbar } from '@mui/material';
+import { formatarCEP, validarEFormatarCPF, validarEFormatarTelefone, validarEmail } from '../utils/mascara';
 import {verificarSenha} from '../utils/senha'
 import { Box } from '@mui/material';
 
-import './Cadastro.css';
-import axios from "axios"
-import { Alert, Snackbar } from '@mui/material';
-import { formatarCEP, validarEFormatarCPF, validarEFormatarTelefone, validarEmail } from '../utils/mascara';
-import { validarEFormatarCPF } from '../utils/mascara';
-import { validarEFormatarTelefone } from '../utils/mascara';
-import { validarEmail } from '../utils/mascara';
 
 function Cadastro(){
   const [nome, setNome] = useState('');
