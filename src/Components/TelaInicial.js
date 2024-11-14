@@ -40,7 +40,7 @@ function SearchArea() {
   );
 }
 
-function TelaInicial() {
+function TelaInicial(props) {
   return (
     <Box
       sx={{
@@ -60,7 +60,7 @@ function TelaInicial() {
         }}
       >
         <Box>
-          <SideBar colorIcon={"#FFFFFF"}/>
+          <SideBar colorIcon={"#FFFFFF"} onLogout={props.onLogout}/>
         </Box>
         <SearchArea />
         <Typography 

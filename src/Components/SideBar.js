@@ -26,7 +26,7 @@ export default function SideBar(props) {
   };
 
   const linkList = [
-    { text: "Home", path: "/", icon: <HomeIcon />},
+    { text: "Home", path: "/home", icon: <HomeIcon />},
     { text: "Meus Servicos", path: "/Servicos", icon: <DesignServicesIcon /> },
     { text: "Logout", path: "#", icon: <LogoutIcon /> },
   ];

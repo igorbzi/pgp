@@ -110,6 +110,7 @@ function Cadastro(){
     setMessageText("Usuário cadastrado com sucesso!")
     setOpenMessage(true)
     clearForm()
+    window.location.href = 'localhost:3000/home';
 }
 
   return(

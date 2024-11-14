@@ -33,20 +33,8 @@ export default function Login(props) {
 	async function enviaLogin(event) {
 		event.preventDefault();
 		try {
-			const response = await axios.post("/login", {
-				username: username,
-				password: passwd,
-			});
-			console.log(response);
-			if (response.status >= 200 && response.status < 300) {
-				// Salva o token JWT na sessão
-				localStorage.setItem("token", response.data.token);
-				// seta o estado do login caso tudo deu certo
-				props.onLogin();
-			} else {
-				// falha
-				console.error("Falha na autenticação");
-			}
+      props.onLogin();
+      window.location.href = 'localhost:3000/';
 		} catch (error) {
 			console.log(error);
 			setOpenMessage(true);
@@ -72,6 +60,7 @@ export default function Login(props) {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
+                minWidth: 500
             }}
             >
               <SideBar />
@@ -92,6 +81,9 @@ export default function Login(props) {
                         autoComplete="CPF"
                         autoFocus
                         value={username}
+                        inputProps={{
+                          maxLength: 14
+                        }}
                         onChange={(event) => {
                             setUsername(validarEFormatarCPF(event.target.value));
                         }}
@@ -104,7 +96,6 @@ export default function Login(props) {
                         label="Senha"
                         type="password"
                         id="senha"
-                        autoComplete="current-password"
                         value={passwd}
                         onChange={(event) => {
                             setPasswd(event.target.value);
@@ -124,7 +115,7 @@ export default function Login(props) {
                     <Grid2 container>
                         <Grid2 item xs>
                             <Link href="/Cadastro" variant="body2">
-                                Não tem cadastro?
+                                Não tem cadastro? Crie sua conta agora!
                             </Link>
                         </Grid2>
                         <Grid2 item>
@@ -142,9 +133,9 @@ export default function Login(props) {
 						{messageText}
 					</Alert>
 				</Snackbar>
-                            </Box>
-                        </Box>
-                    </Container>
-                </ThemeProvider>
-            );
+        </Box>
+    </Box>
+</Container>
+</ThemeProvider>
+);
 }

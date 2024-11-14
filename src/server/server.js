@@ -8,6 +8,13 @@ const usuario = "postgres";
 const senha = "postgres";
 const db = pgp(`postgres://${usuario}:${senha}@localhost:5432/pgp`);
 
+const session = require("express-session");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const jwt = require("jsonwebtoken");
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+
 app.use(cors());
 
 app.use(express.json());
@@ -42,7 +49,7 @@ passport.use(
 			try {
 				// busca o usuário no banco de dados
 				const user = await db.oneOrNone(
-					"SELECT * FROM users WHERE CPFF = $1;",
+					"SELECT * FROM users WHERE CPF = $1;",
 					[username],
 				);
 
@@ -100,7 +107,7 @@ passport.use(
 passport.serializeUser(function (user, cb) {
 	process.nextTick(function () {
 		return cb(null, {
-			CPFF: user.cpff,
+			CPF: user.cpf,
 			nome: user.nome,
 		});
 	});

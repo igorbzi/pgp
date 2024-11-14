@@ -41,10 +41,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<TelaInicial />} />
+        <Route path="/home" element={< Private Elemento={TelaInicial} />} />
         <Route path="/Login" element={<Login />} />
-        <Route path="/Cadastro" element={<Cadastro/>} />
-        <Route path="/Servicos" element={<Servicos/>} />
+        <Route path="/Cadastro" element={<Cadastro onLogout={handleLogout}/>} />
+        <Route path="/Servicos" element={< Private onLogout={handleLogout} Elemento={Servicos} />}/>
+        <Route path="*" element={< Private onLogout={handleLogout} Elemento={TelaInicial} />}/>
       </Routes>
     </Router>
   );

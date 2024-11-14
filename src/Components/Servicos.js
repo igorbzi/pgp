@@ -146,7 +146,7 @@ function Servicos() {
               material={item.material_disp}
               type={item.type_name}
               edit={(e) => {setIdService(item.cod_service); setOption(1); handleOpenModal()}}
-              delete={(e) => {setIdService(item.cod_service); deleteService()}}
+              delete={(e) => {setIdService(item.cod_service); console.log(item.cod_service); console.log(idService); deleteService()}}
               />
             </Grid2>
           ))
