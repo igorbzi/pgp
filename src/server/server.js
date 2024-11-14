@@ -118,6 +118,7 @@ app.delete("/users", async (req, res) => {
 });
 
 /*-----------------Services---------------------*/
+
 app.get("/services", async (req, res) => {
   try {
     const services = await db.any("select * from services");
