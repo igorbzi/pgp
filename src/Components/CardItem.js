@@ -36,8 +36,8 @@ function CardItem(props){
         </Typography>
       </CardContent>
       <CardActions disableSpacing sx={{ mt: "auto" }}>
-        <Button size="small" >Editar</Button>
-        <Button size="small" color="error">Excluir</Button>
+        <Button size="small" onClick={props.edit}>Editar</Button>
+        <Button size="small" onClick={props.delete} color="error">Excluir</Button>
       </CardActions>
     </Card>
   );

@@ -13,7 +13,7 @@ axios.defaults.headers.common["Content-Type"] =
 function App() {
   return (
     <div>
-      <Cadastro />
+      <Servicos />
     </div>
   );
 }

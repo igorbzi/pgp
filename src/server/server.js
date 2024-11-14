@@ -130,12 +130,26 @@ app.get("/services", async (req, res) => {
   }
 });
 
+app.get("/services_id", async (req, res) => {
+  const id = req.query['id'];
+
+  try {
+    const service = await db.any("select * from services where cod_service=$1", [id]);
+    res.json(service).status(200);
+    console.log(service);
+
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(400);
+  }
+});
+
 app.get("/my_services", async (req, res) => {
   const cpf = req.query['cpf']
   console.log(req.query)
 
   try {
-    const services = await db.any("select sr.cod_service, sr.service_name, sr.service_price, st.type_name, sr.material_disp, sr.service_description from services sr join service_type st on st.cod_type_service = sr.service_type");
+    const services = await db.any("select sr.cod_service, sr.service_name, sr.service_price, st.type_name, sr.material_disp, sr.service_description from services sr join service_type st on st.cod_type_service = sr.service_type join service_user su on su.cod_service = sr.cod_service join users u on u.cpf = su.cod_user where u.cpf = $1", [cpf]);
     res.json(services).status(200);
     console.log(services);
 
@@ -146,6 +160,9 @@ app.get("/my_services", async (req, res) => {
 });
 
 app.post("/services", async (req, res) => {
+
+  const cpf = req.query['cpf']
+
   try {
     const service_name = req.body.service_name;
     const service_description = req.body.service_description;
@@ -155,11 +172,14 @@ app.post("/services", async (req, res) => {
 
     console.log(service_type);
 
-    await db
-      .none(
-        "INSERT INTO services (service_name, service_price, service_type, service_description, material_disp) VALUES ($1, $2, $3, $4, $5);", //passando parâmetros
-        [service_name, service_price, service_type, service_description, material_disp]
-      )
+    db.tx(async t => {
+      const srv = await t
+        .one(
+          "INSERT INTO services (service_name, service_price, service_type, service_description, material_disp) VALUES ($1, $2, $3, $4, $5) RETURNING cod_service;", //passando parâmetros
+          [service_name, service_price, service_type, service_description, material_disp]
+        )
+      await t.none("INSERT INTO service_user(cod_user, cod_service) VALUES ($1, $2);", [cpf, srv.cod_service])
+      })
       .then(() => {
         res.sendStatus(200);
       })
@@ -177,7 +197,8 @@ app.post("/services", async (req, res) => {
 
 app.delete("/services", async (req, res) => {
   try {
-    const id = req.body.cod_service;
+    const id = req.query['id'];
+    const cpf = req.query['cpf']
     console.log(id);
 
     const exist = await db.oneOrNone(
@@ -190,11 +211,21 @@ app.delete("/services", async (req, res) => {
       return;
     }
 
-    await db.none(
-      "DELETE from services where cod_service = $1;",
-      [id] 
-    );
-    res.status(200).send("Serviço removido!");
+    db.tx(async t => {
+      const srv = await t
+        .none(
+          "DELETE from service_user where cod_service = $1 and cod_user = $2;", [id, cpf]
+        )
+      await t.none("DELETE from services where cod_service = $1;", [id] )
+      })
+      .then(() => {
+        res.sendStatus(200);
+      })
+      .catch((error) => {
+        res.status(400).send("Preencha todos os campos corretamente!");
+        console.log(error);
+        return;
+      });
   } catch (error) {
     console.log(error);
     res.status(400).send("Erro ao remover serviço!");
@@ -204,15 +235,13 @@ app.delete("/services", async (req, res) => {
 
 app.put("/services", async (req, res) => {
   try {
-    const id = req.body.cod_service;
+    const id = req.query['id']
     const service_name = req.body.service_name;
     const service_description = req.body.service_description;
     const service_price = req.body.service_price;
     const service_type = req.body.service_type;
     const material_disp = req.body.material_disp;
 
-    console.log(id);
-    
 
     const exist = await db.oneOrNone(
       "select 1 from services where cod_service = $1",
@@ -223,17 +252,10 @@ app.put("/services", async (req, res) => {
       return;
     }
 
-    const service_category = await db.oneOrNone(
-      "SELECT cod_type_service from service_type where type_name = $1",
-      [service_type]
-    );
-    
-    console.log(service_category);
-
     await db
       .none(
         "UPDATE services SET service_name = $1, service_price = $2, service_type = $3, service_description = $4, material_disp = $5 WHERE cod_service = $6;", 
-        [service_name, service_price, service_category.cod_type_service, service_description, material_disp,id]
+        [service_name, service_price, service_type, service_description, material_disp,id]
       )
       .then(() => {
         res.sendStatus(200);

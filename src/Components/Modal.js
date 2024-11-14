@@ -1,6 +1,6 @@
 import { Alert, Box, Button, FormControl, FormControlLabel, FormLabel, InputAdornment, MenuItem, Modal, Radio, RadioGroup, TextField, Typography, Snackbar } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useDebugValue, useEffect, useState } from "react";
 
 const style = {
   position: 'absolute',
@@ -18,7 +18,9 @@ const style = {
 };
 
 function ModalPopUp(props){
-
+  
+  const [open, setOpen] = useState(0)
+  const [codService, setCodService] = useState(0)
   const [name, setName] = useState('');
   const [descr, setDescr] = useState('');
   const [price, setPrice] = useState(0);
@@ -28,6 +30,7 @@ function ModalPopUp(props){
   const [openMessage, setOpenMessage] = useState(false);
 	const [messageText, setMessageText] = useState("");
 	const [messageSeverity, setMessageSeverity] = useState("success");
+  const [cpf, setCPF] = useState("000.111.222-33")
 
   function handleCloseMessage() {
 		setOpenMessage(false);
@@ -48,6 +51,16 @@ function ModalPopUp(props){
 
   async function getData(){
     try{
+      if(props.opt){
+        setCodService(props.id)
+        const data = await axios.get(`/services_id/?id=${props.id}`)
+        setName(data.service_name);
+        setDescr(data.service_description);
+        setMaterialDisp(data.material_disp);
+        setPrice(data.service_price);
+        setType(data.service_type)
+        console.log(data)
+      }
       const tipos = await axios.get('/categories')
       setCategorias(tipos);
       console.log(tipos);
@@ -58,7 +71,7 @@ function ModalPopUp(props){
 
   useEffect(() => {
     getData()
-  }, [])
+  }, [codService])
 
   async function handleSubmit(){
     if(name === '' || price === '' || type === ''){
@@ -76,7 +89,11 @@ function ModalPopUp(props){
     }
 
     try{
-      axios.post('/services', reg)
+      if(props.opt === 0){
+        axios.post(`/services/?cpf=${cpf}`, reg)
+      } else {
+        axios.put(`/services/?id=${codService}`, reg)
+      }
       exitModal();
       console.log(reg)
     } catch (error){

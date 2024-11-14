@@ -15,6 +15,8 @@ function Servicos() {
   const [openModal, setOpenModal] = useState(false);
   const handleOpenModal = () => {setOpenModal(true)};
   const handleCloseModal = () => {setOpenModal(false); getData()};
+  const[idService, setIdService] = useState(null);
+  const[option, setOption] = useState(0);
 
   function handleCloseMessage(_, reason) {
 		if (reason === "clickaway") {
@@ -24,7 +26,7 @@ function Servicos() {
 	}
 
   async function getData(){
-    axios.get(`/my_services/?cpf=${cpf}`)
+    await axios.get(`/my_services/?cpf=${cpf}`)
     .then((res) => {
       if(res.data.length === 0){
         setData([])
@@ -47,9 +49,25 @@ function Servicos() {
     })
   }
 
+  async function deleteService(){
+    console.log(idService)
+    await axios.delete(`/services/?cpf=${cpf}&id=${idService}`)
+    .then((res) => {
+      setMessageSeverity("success")
+      setMessageText("Serviço excluído com sucesso!")
+      setOpenMessage(true);
+    })
+    .catch((error) => {
+      setMessageSeverity("error");
+      setMessageText("Ocorreu um erro na exclusão do serviço!");
+      setOpenMessage(true);
+    })
+    getData()
+  }
+
   useEffect(() => {
     getData();
-  });
+  }, []);
 
   return (
     <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -90,8 +108,8 @@ function Servicos() {
 
         <Button 
           variant="contained" 
-          sx={{ backgroundColor: '#fff', color: '#000', marginRight: '16px' }}
-          onClick={handleOpenModal}
+          sx={{ backgroundColor: '#fff', color: '#000', marginRight: '16px', maxWidth: 200}}
+          onClick={(e) => {setOption(0); handleOpenModal()}}
         >
           Adicionar Serviços
         </Button>
@@ -99,7 +117,10 @@ function Servicos() {
 
       <ModalPopUp
         openModal={openModal}
-        handleClose={handleCloseModal}>
+        handleClose={handleCloseModal}
+        opt={option}
+        id={idService}
+        >
 
       </ModalPopUp>
 
@@ -119,6 +140,8 @@ function Servicos() {
               price={item.service_price}
               material={item.material_disp}
               type={item.type_name}
+              edit={(e) => {setIdService(item.cod_service); setOption(1); handleOpenModal()}}
+              delete={(e) => {setIdService(item.cod_service); deleteService()}}
               />
             </Grid2>
           ))
@@ -133,7 +156,8 @@ function Servicos() {
             color: '#fff', 
             position: 'absolute', 
             bottom: '16px', 
-            right: '16px'
+            right: '16px',
+            maxWidth: 100
           }}
         >
           Sair
