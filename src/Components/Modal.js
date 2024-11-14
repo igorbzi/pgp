@@ -49,7 +49,7 @@ function ModalPopUp(props){
   async function getData(){
     try{
       const tipos = await axios.get('/categories')
-      setCategorias(tipos);
+      setCategorias(tipos.data);
       console.log(tipos);
     } catch (error) {
       console.log(error);
@@ -149,12 +149,20 @@ function ModalPopUp(props){
             label='Tipo'
             value={type}
             onChange={(e) => setType(e.target.value)}>
-              <MenuItem key={1} value={1}>
+           {
+            categories.map((cat) => (
+              <MenuItem key={cat.cod_type_service} value={cat.cod_type_service}>
+                {cat.type_name}
+              </MenuItem>
+            ))
+            // <MenuItem key={category.cod_type_service} value={category.cod_type_service}>{category.type_name}</MenuItem>
+           }
+              {/* <MenuItem key={1} value={1}>
                 {'Limpeza'}
               </MenuItem>
               <MenuItem key={2} value={2}>
                 {'Gerais'}
-              </MenuItem>
+              </MenuItem> */}
           </TextField>
         </Box>
 

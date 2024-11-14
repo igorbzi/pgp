@@ -136,7 +136,7 @@ app.get("/my_services", async (req, res) => {
   console.log(req.query)
 
   try {
-    const services = await db.any("select sr.cod_service, sr.service_name, sr.service_price, st.type_name, sr.material_disp, sr.service_description from services sr join service_type st on st.cod_type_service = sr.service_type");
+    const services = await db.any("select sr.cod_service, sr.service_name, sr.service_price, st.type_name, sr.material_disp, sr.service_description , st.image_url from services sr join service_type st on st.cod_type_service = sr.service_type");
     res.json(services).status(200);
     console.log(services);
 

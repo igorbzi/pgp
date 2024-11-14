@@ -1,41 +1,28 @@
 import React from "react";
 import {
   Box,
-  TextField,
-  InputAdornment,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import SideBar from "./SideBar";
+import ListaServicos from "./ListaServicos";
+import SearchBar from "./SearchBar";
 
 
 function ContentArea() {
   return (
     <Box
       sx={{
-        flex: 1,
-        padding: 4,
         display: "flex",
-        justifyContent: "center",
-        alignItems: "flex-start",
-        height: "100%",
+        flexDirection :"column",
+        gap : "3rem",
+        padding: 4,
+        width : "100%",
+        height: "auto",
       }}
     >
-      <TextField
-        placeholder="Buscar"
-        variant="outlined"
-        sx={{
-          minWidth: "50%",
-          backgroundColor: "#C4C7C4",
-        }}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
-
+     
+      <SearchBar />
+      <ListaServicos/>
     </Box>
   );
 }
@@ -45,8 +32,9 @@ function TelaInicial() {
     <Box
       sx={{
         display: "flex",
+        flexDirection : "row",
         height: "100vh",
-        overflow: "hidden",
+        // overflow: "hidden",
       }}
     >
       <SideBar/>
