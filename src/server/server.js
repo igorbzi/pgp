@@ -21,6 +21,122 @@ app.get("/", (req, res) => {
   res.send("Bem-vindo no nosso App");
 });
 
+app.use(
+	session({
+		secret: 'time_limit_exceeded',
+		resave: false,
+		saveUninitialized: false,
+		cookie: { secure: true },
+	}),
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(
+	new LocalStrategy(
+		{
+			usernameField: "username",
+			passwordField: "password",
+		},
+		async (username, password, done) => {
+			try {
+				// busca o usuário no banco de dados
+				const user = await db.oneOrNone(
+					"SELECT * FROM users WHERE CPFF = $1;",
+					[username],
+				);
+
+				// se não encontrou, retorna erro
+				if (!user) {
+					return done(null, false, { message: "Usuário incorreto." });
+				}
+
+				// verifica se o hash da senha bate com a senha informada
+				const passwordMatch = await bcrypt.compare(
+					password,
+					user.senha
+				);
+
+				// se senha está ok, retorna o objeto usuário
+				if (passwordMatch) {
+					console.log("Usuário autenticado!");
+					return done(null, user);
+				} else {
+					// senão, retorna um erro
+					return done(null, false, { message: "Senha incorreta." });
+				}
+			} catch (error) {
+				return done(error);
+			}
+		},
+	),
+);
+
+passport.use(
+	new JwtStrategy(
+		{
+			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+			secretOrKey: "time_limit_exceeded",
+		},
+		async (payload, done) => {
+			try {
+				const user = await db.oneOrNone(
+					"SELECT * FROM users WHERE CPF = $1;",
+					[payload.username],
+				);
+
+				if (user) {
+					done(null, user);
+				} else {
+					done(null, false);
+				}
+			} catch (error) {
+				done(error, false);
+			}
+		},
+	),
+);
+
+passport.serializeUser(function (user, cb) {
+	process.nextTick(function () {
+		return cb(null, {
+			CPFF: user.cpff,
+			nome: user.nome,
+		});
+	});
+});
+
+passport.deserializeUser(function (user, cb) {
+	process.nextTick(function () {
+		return cb(null, user);
+	});
+});
+
+const requireJWTAuth = passport.authenticate("jwt", { session: false });
+
+app.post(
+	"/login",
+	passport.authenticate("local", { session: false }),
+	(req, res) => {
+
+		// Cria o token JWT
+		const token = jwt.sign({ username: req.body.username }, "time_limit_exceeded", {
+			expiresIn: "1h",
+		});
+
+		res.json({ message: "Login successful", token: token });
+	},
+);
+
+app.post("/logout", function (req, res, next) {
+	req.logout(function (err) {
+		if (err) {
+			return next(err);
+		}
+		res.redirect("/");
+	});
+});
+
 /*-----------------users---------------------*/
 app.get("/users", async (req, res) => {
   try {

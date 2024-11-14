@@ -9,12 +9,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import SideBar from "./SideBar";
 
 
-function ContentArea() {
+function SearchArea() {
   return (
     <Box
       sx={{
         flex: 1,
-        padding: 4,
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-start",
@@ -26,7 +25,7 @@ function ContentArea() {
         variant="outlined"
         sx={{
           minWidth: "50%",
-          backgroundColor: "#C4C7C4",
+          backgroundColor: "#FFFFFF",
         }}
         InputProps={{
           endAdornment: (
@@ -63,6 +62,7 @@ function TelaInicial() {
         <Box>
           <SideBar colorIcon={"#FFFFFF"}/>
         </Box>
+        <SearchArea />
         <Typography 
           variant="h5" 
           sx={{ color: 'white', marginLeft: '16px' }}
@@ -70,7 +70,7 @@ function TelaInicial() {
           Quick Fix
         </Typography>
       </Box>
-      <ContentArea />
+
     </Box>
   );
 }

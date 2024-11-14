@@ -10,9 +10,13 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import HomeIcon from '@mui/icons-material/Home';
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
+import TelaInicial from "./TelaInicial";
+import { Typography } from "@mui/material";
+import ConstructionIcon from '@mui/icons-material/Construction';
 
 export default function SideBar(props) {
   const [open, setOpen] = React.useState(false);
@@ -22,26 +26,35 @@ export default function SideBar(props) {
   };
 
   const linkList = [
-    { text: "Cadastro", path: "/Cadastro", icon: <PersonAddAlt1Icon /> },
-    { text: "Servicos", path: "/Servicos", icon: <DesignServicesIcon /> },
+    { text: "Home", path: "/", icon: <HomeIcon />},
+    { text: "Meus Servicos", path: "/Servicos", icon: <DesignServicesIcon /> },
     { text: "Logout", path: "#", icon: <LogoutIcon /> },
   ];
 
   const DrawerList = (
     <Box
       sx={{
-        width: 250,
+        width: 270,
         background: "black",
         color: "white",
         height: "100vh",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "Space-evenly",
         display: "flex",
         flexDirection: "column",
       }}
       role="presentation"
       onClick={toggleDrawer(false)}
     >
+      <Typography variant="h5" position={'top'} 
+        sx={{
+          margin: 2,
+          padding: 2
+        }}>
+        <ConstructionIcon />
+        QUICK FIX
+      </Typography>
+      <Divider />
       <List>
         {linkList.map((item) => (
           <ListItem key={item.text}>
