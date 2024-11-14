@@ -3,6 +3,7 @@ import { Box, Typography, Button, Snackbar, Alert, CircularProgress, Grid2 } fro
 import axios from 'axios';
 import CardItem from './CardItem';
 import ModalPopUp from './Modal';
+import SideBar from './SideBar';
 
 function Servicos() {
 
@@ -99,6 +100,9 @@ function Servicos() {
           alignItems: 'center' 
         }}
       >
+        <Box>
+          <SideBar colorIcon={"#FFFFFF"}/>
+        </Box>
         <Typography 
           variant="h5" 
           sx={{ color: 'white', marginLeft: '16px' }}

@@ -3,6 +3,7 @@ import {
   Box,
   TextField,
   InputAdornment,
+  Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import SideBar from "./SideBar";
@@ -47,9 +48,28 @@ function TelaInicial() {
         display: "flex",
         height: "100vh",
         overflow: "hidden",
+        flexDirection: "column"
       }}
     >
-      <SideBar/>
+      <Box 
+        sx={{ 
+          backgroundColor: '#000', 
+          padding: 2, 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center' 
+        }}
+      >
+        <Box>
+          <SideBar colorIcon={"#FFFFFF"}/>
+        </Box>
+        <Typography 
+          variant="h5" 
+          sx={{ color: 'white', marginLeft: '16px' }}
+        >
+          Quick Fix
+        </Typography>
+      </Box>
       <ContentArea />
     </Box>
   );

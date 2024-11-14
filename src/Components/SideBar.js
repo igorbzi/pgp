@@ -14,7 +14,7 @@ import DesignServicesIcon from "@mui/icons-material/DesignServices";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
 
-export default function SideBar() {
+export default function SideBar(props) {
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -73,10 +73,9 @@ export default function SideBar() {
       <Button onClick={toggleDrawer(true)}>
         <MenuIcon
           sx={{
-            marginTop : "2rem",
             width: "50px",
             height: "50px",
-            color: "black",
+            color: 'white'
           }}
         />
       </Button>
