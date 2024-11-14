@@ -14,7 +14,7 @@ axios.defaults.headers.common["Content-Type"] =
 
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   useEffect(() => {
 		// verifica se já está logado

@@ -6,7 +6,7 @@ import ModalPopUp from './Modal';
 import SideBar from './SideBar';
 
 
-function Servicos() {
+function Servicos(props) {
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -164,6 +164,7 @@ function Servicos() {
             right: '16px',
             maxWidth: 100
           }}
+          onClick={props.onLogout}
         >
           Sair
         </Button>
